@@ -11,3 +11,6 @@ Completed user stories:
 Optional: (In progress)
 
 
+![Alt text](https://github.com/cassiomo/tips/blob/master/tips.gif "tips.gif")
+
+
