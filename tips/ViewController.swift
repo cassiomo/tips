@@ -70,17 +70,6 @@ class ViewController: UIViewController ,
 
 
     @IBAction func onEditingChanged(sender: AnyObject) {
-        
-        //var tipPercentages = [0.1, 0.2, 0.3]
-//        var tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
-//        
-//        
-//        var billAmount = (billField.text as NSString).doubleValue
-//        var tip = billAmount * tipPercentage
-//        var total = billAmount + tip
-//        
-//        tipLabel.text = String(format: "$%.2f", tip)
-//        totalLabel.text = String(format : "$%.2f", total)
         self.tipCalc()
         
     }
@@ -99,7 +88,6 @@ class ViewController: UIViewController ,
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         let settingsViewController = segue.destinationViewController as SettingsViewController
         settingsViewController.delegate = self
-        //settingsViewController.tipPercentages = tipPercentages
     }
     
     @IBAction func onTap(sender: AnyObject) {
@@ -107,7 +95,6 @@ class ViewController: UIViewController ,
     }
     
     func onSettingsDone(controller: SettingsViewController) {
-        //tipPercentages = controller.tipPercentages
         self.loadFromDB()
         self.tipCalc()
         controller.navigationController?.popViewControllerAnimated(true)
