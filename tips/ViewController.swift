@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController ,
+    SettingsViewControllerDelegate {
 
     @IBOutlet weak var tipControl: UISegmentedControl!
 
@@ -18,6 +19,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var totalLabel: UILabel!
     
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
+    var tipPercentages: Array<Double> = [0.1, 0.2, 0.3]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +29,38 @@ class ViewController: UIViewController {
         
         tipLabel.text = "$0.00"
         totalLabel.text  = "$0.00"
+        
+        self.loadFromDB()
+    }
+    
+    func loadFromDB() {
+        if let badTips: AnyObject? = defaults.objectForKey("badTips") {
+            if (badTips != nil) {
+                tipPercentages[0] = (badTips as Double) / 100
+                println(tipPercentages[0])
+            }
+        }
+        if let goodTips: AnyObject? = defaults.objectForKey("goodTips") {
+            if (goodTips != nil) {
+                tipPercentages[1] = (goodTips as Double) / 100
+                println(tipPercentages[1])
+                
+            }
+        }
+        if let wellTips: AnyObject? = defaults.objectForKey("wellTips") {
+            if (wellTips != nil) {
+                tipPercentages[2] = (wellTips as Double) / 100
+                println(tipPercentages[2])
+            }
+        }
+        self.setTipControlTitles()
+    }
+    
+    func setTipControlTitles() {
+        for (index, percentage) in enumerate(tipPercentages) {
+            let title = String(format: "%d%%", Int(round(percentage * 100)))
+            tipControl.setTitle(title, forSegmentAtIndex: index)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,7 +71,7 @@ class ViewController: UIViewController {
 
     @IBAction func onEditingChanged(sender: AnyObject) {
         
-        var tipPercentages = [0.18, 0.2, 0.3]
+        //var tipPercentages = [0.1, 0.2, 0.3]
         var tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
         
         
@@ -48,8 +84,20 @@ class ViewController: UIViewController {
         
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        let settingsViewController = segue.destinationViewController as SettingsViewController
+        settingsViewController.delegate = self
+        //settingsViewController.tipPercentages = tipPercentages
+    }
+    
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true)
+    }
+    
+    func onSettingsDone(controller: SettingsViewController) {
+        //tipPercentages = controller.tipPercentages
+        self.loadFromDB()
+        controller.navigationController?.popViewControllerAnimated(true)
     }
 }
 
