@@ -6,6 +6,7 @@ Completed user stories:
 
 1. Required: User can enter tips percentage in 10%, 20% and 30% from the selector
 2. Required: application can calculate the total amount base on the user input.
+3. Required: Add Save and loading page (Settings)
 
 
 Optional: 
